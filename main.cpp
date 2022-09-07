@@ -64,6 +64,11 @@ Data* dataSource(){
     return &dataArr[0];
 }
 
+/***
+ * Function which calculates the sales and utility of each product using threads
+ * @param argument  void pointer to be casted for a Data pointer
+ * @return returns a void pointer to be casted for an array of type prodResult
+ */
 void* productData(void* argument){
     Data *datosPtr;
     datosPtr = (Data*) argument;
