@@ -26,9 +26,6 @@ struct prodResult{
  */
 const int SIZE = 16;
 const int PRODUCTS = 8;
-//static int resultIndex = 0;
-//static prodResult resultArr[SIZE];
-//static Data dataArray[SIZE];
 prodResult resultArr[SIZE];
 int resultIndex;
 pthread_mutex_t arrMutex;
@@ -174,9 +171,12 @@ int main() {
         Data datos = *arrPtr;
 
         pthread_create(&threadId, &attr, productData, (void*)arrPtr);
-        pthread_join(threadId, &return_value);
 
         i++;
+    }
+
+    for(int  j = 0; j < SIZE; j++){
+        pthread_join(threadId, &return_value);
     }
 
     printData(dataSource(), (prodResult*) return_value, PRODUCTS);
