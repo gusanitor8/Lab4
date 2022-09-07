@@ -44,7 +44,7 @@ Data* dataSource(){
     Data element3 = {"Cafe Americano 8oz", 22,13.20,1590};
     Data element4 = {"Latte 8oz",24,17.20,200};
     Data element5 = {"Toffee Coffee",28,20.10,390};
-    Data element6 = {"Capuccino 8oz", 17.20,1455};
+    Data element6 = {"Capuccino 8oz", 24,17.20, 1455};
     Data element7 = {"Smores Latte", 32,23,800};
     Data element8 = {"Cafe Tostado Molido", 60,20,60};
 
@@ -53,8 +53,8 @@ Data* dataSource(){
     Data element10 = {"White Mocha", 32,19.20,380};
     Data element11 = {"Cafe Americano 8oz",  22,13.20,800};
     Data element12 = {"Latte 8oz", 24,17.20,250};
-    Data element13 = {"Toffee Coffee", 20.10,600};
-    Data element14 = {"Capuccino 8oz",24,17.20,1200};
+    Data element13 = {"Toffee Coffee", 28,20.10,600};
+    Data element14 = {"Capuccino 8oz",24,17.20,250};
     Data element15 = {"Smores Latte",32,23,1540};
     Data element16 = {"Cafe Tostado Molido",60,20,15};
 
@@ -81,31 +81,6 @@ void* productData(void* argument){
 }
 
 /**
- * Function which prints monthly utility and sales per product
- * @param dataPtr pointer to an array of type Data which contains the  product name
- * @param resultPtr  pointer to an array of type prodResult which containts monthly utility and sales information
- * @param step Integer that indicates the number of elements that will be printed
- * @return returns 0 if executed correctly
- */
-int printData(Data* dataPtr, prodResult* resultPtr, int step){
-    cout << "\nJulio: " << endl;
-    for(int i = 0; i < step; i++ ){
-        cout << dataPtr->product << ": Q" << resultPtr->salesPerProd << endl;
-        dataPtr++;
-        resultPtr++;
-    }
-
-    cout << "\nAgosto: " << endl;
-    for(int i = 0; i < step; i++ ){
-        cout << dataPtr->product << ": Q" << resultPtr->salesPerProd << endl;
-        dataPtr++;
-        resultPtr++;
-    }
-
-    return 0;
-}
-
-/**
  * Calculates the total sales and prints them on the screen
  * @param results pointer to an array of prodResult type
  * @param arrSize the size of the array
@@ -121,6 +96,54 @@ int totalSales(prodResult* results, int arrSize){
     cout << "\nVentas totales: " << sum << endl;
 
     return sum;
+}
+
+/**
+ * Calculates the total utility and prints them on the screen
+ * @param results pointer to an array of prodResult type
+ * @param arrSize the size of the array
+ * @return returns the calculation
+ */
+int totalUtility(prodResult* results, int arrSize){
+    double sum = 0;
+
+    for(int i = 0; i < arrSize; i++){
+        sum += results->utility;
+    }
+
+    cout << "\nUtilidad total: " << sum << endl;
+
+    return sum;
+}
+
+/**
+ * Function which prints monthly utility and sales per product
+ * @param dataPtr pointer to an array of type Data which contains the  product name
+ * @param resultPtr  pointer to an array of type prodResult which containts monthly utility and sales information
+ * @param step Integer that indicates the number of elements that will be printed
+ * @return returns 0 if executed correctly
+ */
+int printData(Data* dataPtr, prodResult* resultPtr, int step){
+    cout << "\nJulio: " << endl;
+    for(int i = 0; i < step; i++ ){
+        cout << dataPtr->product << ": Q" << resultPtr->salesPerProd << endl;
+        dataPtr++;
+        resultPtr++;
+    }
+    totalSales((resultPtr - step), step);
+    totalUtility((resultPtr - step), step);
+
+
+    cout << "\nAgosto: " << endl;
+    for(int i = 0; i < step; i++ ){
+        cout << dataPtr->product << ": Q" << resultPtr->salesPerProd << endl;
+        dataPtr++;
+        resultPtr++;
+    }
+    totalSales((resultPtr - step), step);
+    totalUtility((resultPtr - step), step);
+
+    return 0;
 }
 
 
@@ -152,8 +175,7 @@ int main() {
     }
 
     printData(dataSource(), (prodResult*) return_value, PRODUCTS);
-    totalSales((prodResult*) return_value, SIZE);
-    cout << "FINAL" << endl;
+
 
     return 0;
 }
